@@ -1,0 +1,62 @@
+<?php 
+function nbainfo_general_block_info() {    
+  $blocks['nba_info_score_block'] = array(
+    // info: The name of the block.
+    'info' => t('Custom nbainfo block feed'),
+  );
+  $blocks['livescore_link'] = array(
+    // info: The name of the block.
+    'info' => t('Livescore link'),
+  );
+ return $blocks;
+}
+function nbainfo_general_block_view($delta = '') {
+  // The $delta parameter tells us which block is being requested.
+  switch ($delta) {
+    case 'nba_info_score_block':
+      // Create your block content here
+      $block['subject'] = '';
+      $block['content'] = nba_info_get_livescore();
+      break;
+  }
+  return $block;
+}
+
+function nba_info_get_livescore() {
+$content = '<object width="300" height="387" type="application/x-shockwave-flash" data="http:/
+
+/a.espncdn.com/community/widgets/swfs/scoreboard.swf"><param name="flashVars" 
+
+value="sport=nba&amp;pid=espnscoreboard_139277213980337389&amp;share=embed"><param
+
+name="movie" value="http://a.espncdn.com/community/widgets/swfs/scoreboard.swf" ><param 
+
+name="wmode" value="transparent"><param name="allowScriptAccess" value="always"><param 
+
+name="allowNetworking" value="all"></object>';
+return $content;
+}
+
+function nbainfo_general_menu() {
+  $items['nbainfo/get_content_related_to_players/%'] = array(
+    'page callback' => 'nbainfo_general_get_content_related_to_players',
+    'page arguments' => array(2),
+  );
+  $items['user/edit-my-profile'] = array(
+    'title'            => 'Edit Profile',
+    'description'      => '',
+    'page callback'    => 'nbainfo_general_edit_my_profile',
+    'access callback' => 'user_is_logged_in',
+    'type'             => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+function nbainfo_general_get_content_related_to_players($player) {
+  return $argument1;
+}
+function nbainfo_general_edit_my_profile() {
+  global $user;
+  drupal_goto('user/'.$user->uid.'/edit');
+}

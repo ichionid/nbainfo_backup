@@ -1,0 +1,7 @@
+name = NBAinfo forum module
+description = Modifies the advanced forum module.
+core = 7.x
+package = NBAinfo
+dependencies[] = advanced_forum
+files[] = nbainfo_forum.module
+scripts[] = nbainfo_forum.js 

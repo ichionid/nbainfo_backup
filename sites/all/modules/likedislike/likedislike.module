@@ -1,0 +1,355 @@
+<?php
+/*
+ * @file
+ * This module is intended to allow voting in a way of like and dislike buttons
+ * similar to Facebook, but with also negative range. Vote is for entities and 
+ * comments.
+ * The voting is done using AJAX.
+ * There is a set of permissions for every content type to view and vote.
+ * For example, you could allow anonymous users to see the voting, but not to
+ * vote.
+ * It alerts a message if someone votes without having permissions to vote.
+ *
+ * TODO: Comment voting is not fully tested in this version
+ *
+ * @author Nestor Mata Cuthbert <nestor@profesional.co.cr>
+ */
+
+/**
+ * Implementing hook_init()
+ *
+ * Add the required javascript and CSS to the page
+ **/
+function likedislike_init() {
+  $base_path = base_path();
+  $module_path = drupal_get_path('module', 'likedislike');
+  drupal_add_js($module_path . "/likedislike.js");
+  drupal_add_js("var base_path = '".$base_path."'; var module_path = '".$module_path."';","inline");
+  drupal_add_css($module_path."/templates/likedislike.css");
+}
+
+/**
+ * Implementing hook_permission()
+ *
+ * Defines view and vote permissions for every content type and a management 
+ * permission
+ **/
+function likedislike_permission() {
+  $perms = array();
+  $node_types = node_type_get_types();
+  foreach ($node_types as $type_name => $type_info) {
+    $perms['like node ' . $type_name] = array(
+      'title' => t('Add like to %type', array('%type' => $type_info->name)),
+      'description' => t('Allow users to add like to the nodes of type %type.', array('%type' => $type_info->name)),
+      'restrict access' => TRUE,
+    );
+    $perms['view likes ' . $type_name] = array(
+      'title' => t('View likes of %type', array('%type' => $type_info->name)),
+      'description' => t('Allow users to view likes to the nodes of type %type.', array('%type' => $type_info->name)),
+      'restrict access' => TRUE,
+    );
+  }
+  $perms['like comment'] = array(
+    'title' => t('Add like to comment'),
+    'description' => t('Allow users to add like to the comments.'),
+    'restrict access' => TRUE,
+  );
+  $perms['view likes comment'] = array(
+    'title' => t('View likes of comments'),
+    'description' => t('Allow users to view likes to the comments.'),
+    'restrict access' => TRUE,
+  );
+  $perms['manage like dislike'] = array(
+    'title' => t('Manage Like/DisLike options'),
+    'description' => t('Manage administrative options of the like/dislike module.'),
+    'restrict access' => TRUE,
+  );
+  return $perms;
+}
+
+/**
+ * Implementing hook_theme().
+ *
+ * Defines the themes of the like and dislike buttons and counts
+ */
+function likedislike_theme() {
+  return array(
+    'like' => array(
+      'template' => 'templates/like',
+    ),
+    'dislike' => array(
+      'template' => 'templates/dislike',
+    ),
+  );
+}
+
+/**
+ * Implementing hook_menu()
+ * 
+ * Defines callback for the AJAX functionality and a managment page
+ */
+function likedislike_menu() {
+  $items = array();
+
+  // Management configuration page
+  $items['admin/config/likedislike'] = array(
+    'title' => 'Manage like/dislike options.',
+    'description' => t('Management options for the like and dislike buttons.'),
+    'access arguments' => array('manage like dislike'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('likedislike_admin_page'),
+  );
+
+  //Node like and dislike menu item.
+  $items['likedislike/like/node/add'] = array(
+    'title' => 'Add a like to the entity.',
+    'description' => t('Add a vote to the node entity using voting api.'),
+    'access callback' => TRUE,
+    'page callback' => '_add_entity_like',
+    'type' => MENU_CALLBACK,
+  );
+  $items['likedislike/dislike/node/add'] = array(
+    'title' => 'Add a dislike to the entity.',
+    'description' => t('Add a vote to the node entity using voting api.'),
+    'access callback' => TRUE,
+    'page callback' => '_add_entity_dislike',
+    'type' => MENU_CALLBACK,
+  );
+
+  //Comment like and dislike menu item.
+  $items['likedislike/like/comment/add'] = array(
+    'title' => 'Add a like to the entity.',
+    'description' => t('Add a vote to the node entity using voting api.'),
+    'access callback' => TRUE,
+    'page callback' => '_add_entity_like',
+    'type' => MENU_CALLBACK,
+  );
+  $items['likedislike/dislike/comment/add'] = array(
+    'title' => 'Add a dislike to the entity.',
+    'description' => t('Add a vote to the node entity using voting api.'),
+    'access callback' => TRUE,
+    'page callback' => '_add_entity_dislike',
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Implementation of the configuration page.
+ * It allows to change the vote denied message
+ */
+function likedislike_admin_page() {
+  $form = array();
+  $form['likedislike_vote_denied_msg'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Vote denied message'),
+    '#description' => t("This is the message that the user will see if doesn't have permission to vote"),
+    '#default_value' => variable_get('likedislike_vote_denied_msg', "You don't have permission to vote"),
+  );
+  return system_settings_form($form);
+}
+
+/**
+ * Implementing hook_comment_load()
+ *
+ * Draws the like/dislike buttons in a comment if the user has permission
+ */
+function likedislike_comment_load($comments) {
+  global $user;
+  if (!user_access('view likes comment')) 
+    return;
+
+  foreach ($comments as $comment) {
+    $comment->like = theme('like',array(
+      'eid' => $comment->cid,
+      'likes' => _get_entity_vote_count($comment->cid,'like','comment'),
+      'likestatus' => _get_entity_vote_count($comment->cid,'like','comment',$user->uid),
+      'entity' => "entity-comment",
+    ));
+    $comment->dislike = theme('dislike', array(
+      'eid' => $comment->cid,
+      'dislikes' => _get_entity_vote_count($comment->cid,'dislike','comment'),
+      'dislikestatus' => _get_entity_vote_count($comment->cid,'dislike','comment',$user->uid),
+      'entity' => "entity-comment",
+    ));
+  }
+}
+
+/**
+ * Implement hook_node_load()
+ *
+ * Loads the like/dislike information to the node object
+ */
+function likedislike_node_load($nodes, $types) {
+  global $user;
+  foreach ($nodes as $node) {
+    $can_vote = user_access('like node ' . $node->type);
+    // Check the voting status based on the permission and if already voted for like or dislike as he can't repeat vote
+    if ($user->uid == 0) {
+      $ip = ip_address();
+      $likestatus = $can_vote?_get_entity_vote_count($node->nid,'like','node',$user->uid, $ip):1;
+      $dislikestatus = $can_vote?_get_entity_vote_count($node->nid,'dislike','node',$user->uid, $ip):1;
+    } else {
+      $likestatus = $can_vote?_get_entity_vote_count($node->nid,'like','node',$user->uid):1;
+      $dislikestatus = $can_vote?_get_entity_vote_count($node->nid,'dislike','node',$user->uid):1;
+    }
+
+    // Add the themed buttons for like/dislike
+    $node->like = theme('like',array(
+      'eid' => $node->nid,
+      'likes' => _get_entity_vote_count($node->nid,'like','node'),
+      'likestatus' => $likestatus,
+      'entity' => "entity-node",
+    ));
+    $node->dislike = theme('dislike', array(
+      'eid' => $node->nid,
+      'dislikes' => _get_entity_vote_count($node->nid,'dislike','node'),
+      'dislikestatus' => $dislikestatus,
+      'entity' => "entity-node",
+    ));
+  }
+}
+
+/**
+ * Renders the like/dislike buttons if the user has permission to see it
+ */
+function likedislike_node_view($node, $view_mode, $langcode) {
+  // Don't display the like/dislike if has no permissions to view
+  if (user_access('view likes ' . $node->type)) {
+    $node->content['like'] = array(
+      '#markup' => $node->like,
+      '#weight' => 10,
+    );
+    $node->content['dislike'] = array(
+      '#markup' => $node->dislike,
+      '#weight' => 11,
+    );
+  }
+  return $node;
+}
+
+/**
+ * This function gives back the number of votes for a particular entit with a particular type of voting.
+ * For example it can be used to get number of likes and also dislikes. Just need to change the type.
+ * 
+ * @param type $nodeId: the node id of the node for which number of votes is requited.
+ * @param type $type: the category of vote: like/dislike etc.
+ */
+function _get_entity_vote_count($nodeId,$type,$entity,$uid=NULL,$ip=NULL) {
+  if ($uid === NULL) {
+    $criteria = array(
+      'entity_id' => $nodeId,
+      'tag' => $type,
+      'entity_type' => $entity,
+    );
+  } else {
+    $criteria = array(
+      'entity_id' => $nodeId,
+      'tag' => $type,
+      'uid' => $uid,
+      'entity_type' => $entity,
+    );
+    if ($ip != NULL) {
+      $criteria['vote_source'] = $ip;
+    }
+  }
+  $count = sizeof(votingapi_select_votes($criteria));
+  if (!isset($count)) {
+    $count = 0;
+  }
+  return $count;
+}
+
+/**
+ * Handles the when a node or comment is voted with a like.
+ * This functions uses a general function to register the vote
+ * This function is to be used with AJAX so just prints the counts and message
+ */
+function _add_entity_like() {
+  if ($_GET['entityid']) {
+    // Get the information of type of entity and entity ID
+    $node_id = intval($_GET['entityid']);
+    $entity_type = $_GET['entity'];
+    _add_likedislike($node_id, $entity_type, 'like');
+  }
+}
+
+/**
+ * Handles the when a node is voted with a like.
+ * This functions uses a general function to register the vote
+ * This function is to be used with AJAX so just prints the counts and message
+ */
+function _add_entity_dislike() {
+  if ($_GET['entityid']) {
+    // Get the information of type of entity and entity ID
+    $node_id = intval($_GET['entityid']);
+    $entity_type = $_GET['entity'];
+    _add_likedislike($node_id, $entity_type, 'dislike');
+  }
+}
+
+/**
+ * Manage the real like or dislike event for nodes or comments.
+ * If the user has permission to vote it checks that the user has not made this
+ * vote already.
+ * When registers a vote it will remove all votes from user for that entity and
+ * register the new vote.
+ * 
+ * This function is to be used with AJAX so just prints like this:
+ * likecount/dislikecount/message
+ * Example: 3/2/The user can't vote
+ */
+function _add_likedislike($node_id, $entity_type, $action) {
+  global $user;
+  $message = '';
+
+  // If has permission to vote execute all the vote logic
+  $can_vote = 
+    ($entity_type == 'comment' && user_access('like comment')) ||
+    ($entity_type == 'node' && ($node = node_load($node_id)) && user_access('like node ' . $node->type));
+  if ($can_vote) {
+    //Check if disliked
+    $checkCriteria = array(
+      'entity_id' => $node_id,
+      'tag' => $action=='like'?'dislike':'like',
+      'uid' => $user->uid,
+      'entity_type' => $entity_type,
+    );
+    if ($user->uid == 0) {
+      $checkCriteria['vote_source'] = ip_address();
+    }
+    $dislikeResult = votingapi_select_votes($checkCriteria);
+    $dislikeCount = count($dislikeResult);
+
+    if ($dislikeCount == 1) {
+      print $dislikeResult->vote_id;
+      votingapi_delete_votes($dislikeResult);
+    }
+
+    $vote = array(
+      'entity_id' => $node_id,
+      'value'=> 1,
+      'tag' => $action,
+      'entity_type' => $entity_type,
+    );
+    $setVote = votingapi_set_votes($vote);
+  } else {
+    $message = t(variable_get('likedislike_vote_denied_msg', "You don't have permission to vote"));
+  }
+
+  // Get the updated like/dislike counts and print them with a message if any
+  $criteriaLike = array(
+    'entity_id' => $node_id,
+    'tag' => 'like',
+    'entity_type' => $entity_type,
+  );
+  $criteriaDislike = array(
+    'entity_id' => $node_id,
+    'tag' => 'dislike',
+    'entity_type' => $entity_type,
+  );
+
+  $likeCount = sizeof(votingapi_select_votes($criteriaLike));
+  $dislikeCount = sizeof(votingapi_select_votes($criteriaDislike));
+  print $likeCount . "/" . $dislikeCount . "/" . $message;
+}

@@ -1,0 +1,106 @@
+<?php
+function nbainfo_forum_page_alter(&$page) {
+  $node = array_shift(array_values($page['content']['system_main']['nodes']));
+  if (isset($node['field_player'])) {
+    $player = array_shift(array_values(taxonomy_get_term_by_name($node['field_player']['#object']->title, 'players')));
+    $related_nodes = node_load_multiple(taxonomy_select_nodes($player->tid));
+    if(count($related_nodes) > 0) {
+	$page['content']['system_main']['nodes'][99]['field_player']['#suffix'] .= '<div class="custom-player-related-articles-wrapper"><div class="custom-player-related-articles-title">Relaterede artikler</div><div class= "custom-player-related-articles-table">';
+    }
+    foreach($related_nodes as $nid => $node) {
+      $page['content']['system_main']['nodes'][99]['field_player']['#suffix'] .= '<a href="/node/'. $nid .'">'. $node->title .'</a>';
+    }
+    if(count($related_nodes) > 0) {
+      $page['content']['system_main']['nodes'][99]['field_player']['#suffix'] .= '</div></div>';
+    }
+  }
+ }
+
+function nbainfo_forum_form_forum_node_form_alter(&$form, &$form_state, $form_id) {
+  
+  global $user;
+  $check = array_intersect(array('Forummoderator', 'administrator'), array_values($user->roles));
+  if (empty($check)) {
+    $form['actions']['submit']['#submit'][]='nbainfo_forum_submit';
+    $form['additional_settings']['#access'] = FALSE;
+  }
+
+  //$form['menu']['#access'] = FALSE;
+  //$form['facebook_comments']['#access'] = FALSE;
+  //$form['revision_information']['#access'] = FALSE;
+  //$form['comment_settings']['#access'] = FALSE;
+  //$form['options']['#access'] = FALSE;
+}
+
+function nbainfo_forum_submit($form,$form_state) {
+  try {
+    // load the node object  
+    $node = node_load($form_state['nid']);
+    // set status property to 1
+    $node->status = 1;
+    // re-save the node
+    node_save($node);  
+  } catch (Exception $e) {
+    // Generic exception handling if something else gets thrown.
+    watchdog('nbainfo_forum', $e->getMessage(), WATCHDOG_ERROR);
+  }
+}
+
+/*function nbainfo_forum_form_forum_node_form_alter(&$form, &$form_state, $form_id) {
+  $form['additional_settings']['#access'] = FALSE;
+  //$form['menu']['#access'] = FALSE;
+  //$form['facebook_comments']['#access'] = FALSE;
+  //$form['revision_information']['#access'] = FALSE;
+  //$form['comment_settings']['#access'] = FALSE;
+  //$form['options']['#access'] = FALSE;
+}*/
+
+/*function nbainfo_forum_form_alter(&$form, &$form_state, $form_id) {
+  //$form['field_agent_name']['#access'] = FALSE;
+  foreach($form as $key => $value) {
+    watchdog('1', $key);
+  }
+}*/
+
+function nbainfo_forum_comment_view_alter(&$build) {
+  global $user;
+  if (in_array('administrator', $user->roles) || in_array('editor', $user->roles)) {
+    $build['links']['comment']['#links']['comment-promote'] = array(
+      'title' => t('Promote to front'),
+      'href'  => 'comment/' . $build['comment_body']['#object']->cid  . '/promote_to_front',
+      'html'  => TRUE,
+    );
+    $build['links']['comment']['#links']['comment-promote']['attributes']['class'][] = 'promote-comment-to-frontpage';
+    $build['links']['comment']['#links']['comment-promote']['attributes']['comment_id'][] = $build['comment_body']['#object']->cid;
+ }
+}
+function nbainfo_forum_permission() {
+  return array(
+    'promote comment to frontpage' => array(
+      'title' => t('Promote comment to frontpage'),
+      'description' => t('Promote comment to frontpage.'),
+    ),
+  );
+}
+function nbainfo_forum_menu() {
+  $items['comment/%/promote_to_front'] = array(
+    'title' => 'Promote to front page',
+    'page callback' => 'nbainfo_forum_promote_to_frontpage',
+    'page arguments' => array(1),
+    'access arguments' => array('promote comment to frontpage'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+/**
+* AJAXIFY using http://www.computerminds.co.uk/drupal-code/make-link-use-ajax-drupal-7-its-easy
+*
+*/
+function nbainfo_forum_promote_to_frontpage($comment_id) {
+  $comment_object = comment_load($comment_id, TRUE);
+  $comment_object->is_anonymous = 0;
+  $comment_object->field_promote_to_frontpage['und'][0]['tid']='57'; //YES
+  comment_submit($comment_object);
+  comment_save($comment_object);
+}
+?>

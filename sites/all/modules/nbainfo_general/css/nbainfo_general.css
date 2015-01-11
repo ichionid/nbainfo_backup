@@ -1,0 +1,71 @@
+body.node-type-forum .field-name-comment-body img {
+  width: auto!important;
+  height: auto!important;
+}
+
+.node-type-blog .group-left {
+  padding-left: 1%;
+}
+body.node-type-forum .forum-post-links ul.links li.comment-add,
+body.node-type-forum .forum-post-links ul.links li.comment-reply {
+  display: none;
+}
+
+div.pane-nbainfo-general-nba-info-score-block object {
+  float: right;
+  margin-top: 11%
+}
+
+/*Feed from NBA.com*/
+div.pane-aggregator-feed-1 li {
+  list-style-type: none;
+}
+div.pane-aggregator-feed-1 li {
+    border-bottom: silver;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+}
+div.pane-aggregator-feed-1 .more-link {
+  display: none;
+}
+div.pane-aggregator-feed-1 li a {
+  padding-left: 1%;
+}
+
+h1#page-title {
+  display: inline-table;
+}
+/*Frontpage*/
+div.panels-flexible-region-2-twitter,
+div.panels-flexible-region-2-chat {
+  top: -19px;
+  position: relative;
+}
+div.shoutbox-all-shouts {
+  display: none;
+}
+div.pane-content .shoutbox-add-form input#edit-message {
+  width: 50%;
+}
+div.shoutbox-add-form .fieldset-wrapper {
+  margin: 0;
+}
+div.shoutbox-add-form .form-wrapper {
+  margin-top: 0;
+  top: 0;
+  margin-bottom: 0;
+}
+div.pane-content #shoutbox-body {
+  height: 292px;
+}
+
+#block-superfish-1 li a {
+  font-weight: bold;
+}
+div.pane-dagens-billet-view .more-link {
+  display: none;
+}
+#content div.panels-flexible-region-2-center h2.pane-title,
+#page-wrapper #content .pane-blogs h2.pane-title {
+  font-size: 2.8em;
+}

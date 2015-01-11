@@ -1,0 +1,28 @@
+<?php
+/**
+ * @file
+ * JavaScript callback handler module.
+ */
+
+/**
+ * Implements hook_menu().
+ *
+ * Add a basic menu callback for each module implementing a js hook. This makes
+ * Drupal recognize the urls as valid so that they can be used in e.g.
+ * autocomplete.
+ */
+function js_callback_menu() {
+  //Get all modules implementing the js hook
+  $modules = module_implements('js_callback');
+  $items   = array();
+
+  //Add menu callback for each module with the js prefix.
+  foreach ($modules AS $module) {
+    $items['js/' . $module] = array(
+      'page callback' => 'drupal_access_denied',
+      'access arguments' => array('access content'),
+      'type' => MENU_CALLBACK
+    );
+  }
+  return $items;
+}

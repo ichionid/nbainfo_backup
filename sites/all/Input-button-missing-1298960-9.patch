@@ -1,0 +1,13 @@
+diff --git a/shoutbox-form.js b/shoutbox-form.js
+index 41350b5..17a0a61 100644
+--- a/shoutbox-form.js
++++ b/shoutbox-form.js
+@@ -189,7 +189,7 @@ Drupal.shoutbox.validate = function (formData, jqForm, options) {
+   // Clear the form input 
+   $('#shoutbox-add-form').resetForm();
+   $('#shoutbox-throbber').show();
+-  $('#shoutbox-add-form input#edit-submit').hide();
++  $('#shoutbox-add-form input#edit-submit').show();
+   return true;	
+ };
+ 

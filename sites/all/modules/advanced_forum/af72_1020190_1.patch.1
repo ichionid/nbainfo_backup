@@ -1,0 +1,93 @@
+Index: contributions/modules/advanced_forum/advanced_forum.module
+--- contributions/modules/advanced_forum/advanced_forum.module Base (1.149.2.85.2.3)
++++ contributions/modules/advanced_forum/advanced_forum.module Locally Modified (Based On 1.149.2.85.2.3)
+@@ -1122,7 +1122,15 @@
+ function advanced_forum_type_is_in_forum($node, $tid=0) {
+   $vid = (empty($vid)) ? variable_get('forum_nav_vocabulary', 0) : $vid;
+   if (isset($node->taxonomy_forums)) {
+-    foreach ($node->taxonomy_forums[$node->language] as $tforum) {
++    // Check for language used
++    if (!isset($node->taxonomy_forums[$node->language])) {
++      $langcode = LANGUAGE_NONE;
++    }
++    else {
++      $langcode = $node->language;
++    }
++
++    foreach ($node->taxonomy_forums[$langcode] as $tforum) {
+ 			if (!isset($tforum['taxonomy_term'])) {
+ 				continue;
+ 			}
+Index: contributions/modules/advanced_forum/includes/advanced_forum_preprocess_node.inc
+--- contributions/modules/advanced_forum/includes/advanced_forum_preprocess_node.inc Base (1.1.2.31.2.1)
++++ contributions/modules/advanced_forum/includes/advanced_forum_preprocess_node.inc Locally Modified (Based On 1.1.2.31.2.1)
+@@ -43,8 +43,16 @@
+       'comment_count' => $variables['comment_count']
+       ));
+
++    // Check for language used
++    if (!isset($node->taxonomy_forums[$node->language])) {
++      $langcode = LANGUAGE_NONE;
++    }
++    else {
++      $langcode = $node->language;
++    }
++
+     // Is this really needed?
+-    $term = $node->taxonomy_forums[$node->language][0]['taxonomy_term'];
+\ No newline at end of file
++    $term = $node->taxonomy_forums[$langcode][0]['taxonomy_term'];
+     $variables['terms'] = l($term->name, $term->uri['path']);
+   }
+
+Index: contributions/modules/advanced_forum/includes/style.inc
+--- contributions/modules/advanced_forum/includes/style.inc Base (1.1.2.16.2.1)
++++ contributions/modules/advanced_forum/includes/style.inc Locally Modified (Based On 1.1.2.16.2.1)
+@@ -305,16 +305,25 @@
+
+ function advanced_forum_is_forum_tagged($node, $preview = FALSE) {
+   $vid = variable_get('forum_nav_vocabulary', '');
++
++  // Check for language used
++  if (!isset($node->taxonomy_forums[$node->language])) {
++    $langcode = LANGUAGE_NONE;
++  }
++  else {
++    $langcode = $node->language;
++  }
++
+   if ($preview) {
+-     foreach ($node->taxonomy_forums[$node->language] as $tf) {
+-      if ($tf->taxonomy_term->vid == $vid) {
++    foreach ($node->taxonomy_forums[$langcode] as $tforum) {
++      if ($tforum->taxonomy_term->vid == $vid) {
+         return TRUE;
+       }
+     }
+   }
+   else {
+     // Get a list of the terms attached to this node
+-    $terms = $node->taxonomy_forums[$node->language];
++    $terms = $node->taxonomy_forums[$langcode];
+     if (count($terms) > 0) {
+       return TRUE;
+     }
+@@ -404,8 +413,16 @@
+   // See if this is a forum post:
+   $vid = variable_get('forum_nav_vocabulary', '');
+
+-  foreach ($node->taxonomy_forums[$node->language] as $tf) {
+-    if ($tf->taxonomy_term->vid == $vid) {
++  // Check for language used
++  if (!isset($node->taxonomy_forums[$node->language])) {
++    $langcode = LANGUAGE_NONE;
++  }
++  else {
++    $langcode = $node->language;
++  }
++
++  foreach ($node->taxonomy_forums[$langcode] as $tforum) {
++    if ($tforum->taxonomy_term->vid == $vid) {
+       return _advanced_forum_comment_wrapper($content, $node);
+     }
+   }

@@ -1,0 +1,10 @@
+name = JavaScript callback handler
+description = A JavaScript callback handler improving AJAX performance
+core = "7.x"
+
+; Information added by drupal.org packaging script on 2012-12-19
+version = "7.x-1.0+0-dev"
+core = "7.x"
+project = "js_callback"
+datestamp = "1355879496"
+

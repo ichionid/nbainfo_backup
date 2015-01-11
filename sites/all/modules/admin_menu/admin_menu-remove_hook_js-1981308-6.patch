@@ -1,0 +1,24 @@
+diff --git a/admin_menu.module b/admin_menu.module
+index 8a8dee1..1a23d05 100644
+--- a/admin_menu.module
++++ b/admin_menu.module
+@@ -269,19 +269,6 @@ function admin_menu_suppress($set = TRUE) {
+ }
+ 
+ /**
+- * Implements hook_js().
+- */
+-function admin_menu_js() {
+-  return array(
+-    'cache' => array(
+-      'callback' => 'admin_menu_js_cache',
+-      'includes' => array('common', 'theme', 'unicode'),
+-      'dependencies' => array('devel', 'filter', 'user'),
+-    ),
+-  );
+-}
+-
+-/**
+  * Retrieve a client-side cache hash from cache.
+  *
+  * The hash cache is consulted more than once per request; we therefore cache

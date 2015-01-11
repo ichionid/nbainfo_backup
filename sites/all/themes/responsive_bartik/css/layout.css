@@ -1,0 +1,476 @@
+.panels-flexible-region-2-debate_region-inside .group-right .field-type-text-with-summary {
+  max-height: 44px;
+  overflow: hidden;
+}
+.view-id-forum_list_of_recently_commented_topics .forum-table-topics {
+  width: 50%;
+  min-width: 300px;
+}
+
+.forum-table-topics .views-field-comment-count {
+  min-width: 100px
+}
+
+.node-type-forum #main-wrapper {
+  background-color: #ffffff;
+}
+
+body.admin-menu .sf-menu > li {
+  position: relative;
+  z-index: 498;
+  float: none;
+}
+
+.node-type-blog .panels-flexible-region-3-left_side .pane-similarterms h2 {
+  font-size: 1.12em;
+}
+.node-type-forum .forum-post-footer,
+.node-type-forum .forum-post {
+}
+.view-id-legender_view {
+  width: 65%;
+  padding-left: 10px;
+}
+.view-id-legender_view.view-display-id-block_1 {
+  width: 100%;
+  padding: 0;
+}
+
+.view-id-legender_view #legender-header-img { 
+  width:640px;
+  height:160px;
+  background-image:url("../images/legender.png");
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+}
+.view-id-legender_view.view-display-id-block_1 #legender-header-img {
+  width:100%;
+  height:73px;
+  min-width:100%;
+  background-image:url("../images/legender.png");
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+}
+
+@media all and (max-width: 1024px) {  
+  #highlighted div.content ul li {
+    width:140px;
+  }
+}
+.ds-3col.user-profile.view-mode-full img {
+  border-right-width: 3px;
+  border-right-color: rgb(12, 12, 12);
+  border-right-style: solid;
+  padding-right: 50px;
+}
+.node-type-legender .title,
+.node-type-blog .title {
+  padding-left: 18%;
+}
+.node-type-legender .panel-3col .panel-col-first,
+#content .ds-3col > .group-left {
+  width: 17%;
+
+}
+.legender-page #content .panel-3col .panel-col .inside {
+ margin:0;
+ padding:0;
+}
+.panels-flexible-region-2-debate_region-inside .pane-title {
+  background-image:url("../images/bloggen.png");
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+  position: relative;
+  min-width: 475px;
+  min-height: 99px;
+  width:100%;
+
+}
+.panels-flexible-region-2-debate_region-inside .pane-title a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 475px;
+  min-height: 99px;
+  width:100%;
+  display: none;
+}
+
+.view-forum-topics .pane-title {
+  background-image:url("../images/debat.png");
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+  position: relative;
+  min-width: 475px;
+  min-height: 99px;
+  width:100%;
+}
+.view-forum-topics .pane-title a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 475px;
+  min-height: 99px;
+  width:100%;
+  display: none;
+
+}
+
+div.pane-forum-topics .forum-comment-actual-content {
+  max-height: 80px;
+  overflow: hidden;
+}
+#header {
+  width: 100%;
+}
+#main-wrapper {
+  width: 100%;
+  float: left;
+  clear: left;
+}
+
+div.field-name-field-team .field-label,
+div.field-name-field-player .field-label {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+div.forum-left-side{
+  padding-left:1%;
+}
+div.forum-right-side{ 
+  padding-right:1%;
+}
+
+form.comment-form {
+  width: 99%;
+  padding-left: 1%;
+}
+
+h2.comment-form {
+  clear:both;
+}
+div.panels-flexible-3 .panels-flexible-region-last {
+  width: 66%;
+}
+#blog-node-title h2 {
+  display: none;
+}
+#blog-node-title .pane-content {
+  font-size: 1.7em;
+}
+#content div.panels-flexible-8 h2 {
+  font-size: 1.7em;
+}
+
+div.panel-pane.pane-views.pane-most-popular {
+  top: 1.4em;
+  box-shadow: 10px 10px 5px #888888;
+  background-color: rgb(228, 228, 228);
+  position: relative;
+}
+div.panel-pane.pane-views.pane-most-popular h2 {
+  padding-left: 0.5em;
+}
+div.panel-pane.pane-views.pane-most-popular .pane-content {
+  padding-left: 1em;
+  padding-bottom: 1em;
+}
+
+.contact-form .grippie {
+  width: 76.3%
+}
+.forum-right-side .group-left {
+  width: 30%;
+}
+
+.forum-right-side .group-right {
+  width: 70%;
+}
+
+.forum-right-side .forum-post-panel-main {
+  margin-left: 0px;
+}
+.forum-right-side {
+  float: right;
+  width: 35%;
+  min-width: 150px;
+}
+
+.forum-left-side { 
+  float: left;
+  width: 60%;
+  min-width: 300px;
+}
+
+#page .region-header {
+  margin:0.3em 0 0 0 ;
+  width: 100%;
+  float: none;
+}
+#block-search-form .content {
+  float: right;
+}
+#page #highlighted {
+  border-bottom: 0; 
+}
+html {
+  background-color:#DBD9D9;
+}
+#main.clearfix {
+  margin-top: 0px!important;
+}
+/*-----------------NBAinfo menu----------------------------------*/
+#block-menu-menu-nbainfo-menu .content {
+  background-color: #966305;
+}
+#block-menu-menu-nbainfo-menu .content ul.menu li a:link,
+#block-menu-menu-nbainfo-menu .content ul.menu li a:visited {
+  color: white;
+  text-decoration:none;
+}
+#block-menu-menu-nbainfo-menu .content ul.menu li a:hover {
+  color: black;
+  text-decoration:none;
+}
+
+#block-menu-menu-nbainfo-menu ul {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+#block-menu-menu-nbainfo-menu li.leaf {
+  list-style-type: none!important;
+  list-style-image: none!important;
+  display: inline-block;
+  zoom: 1;
+}
+
+/*------------------General Custom CSS--------------------------*/
+.pane-shoutbox-shoutbox h2.pane-title {
+  background-color: #966305;
+  border-style:solid;
+  border-width:5px;
+  border-color: #966305;
+}
+#content {
+ /* margin-bottom: 0px;
+  margin-top: 0px;*/
+}
+
+/*------------------ Blog CSS ----------------------------------*/
+.fb-comments span,
+div.pane-content span {
+  width: 100%!important;
+}
+
+/*------------------ Dagens Billet CSS--------------------------*/
+.dagens-billet-wrapper {
+  background-color: grey;
+  min-width: 200px;
+}
+.body-wrapper {
+  color: white;
+  padding-left: 10px;
+}
+/* ------------------- Basic Layout Styles ---------------- */
+#shoutbox-body {
+  height: 350px;
+  overflow-y: scroll;
+  top: -10px;
+  position: relative;
+}
+
+html,
+body,
+#page  {
+  height: 100%;
+}
+#page-wrapper {
+  min-height: 100%;
+}
+#header div.section,
+#featured div.section,
+#messages div.section,
+#main,
+#triptych,
+#footer-columns,
+#footer {
+  width: 100%;
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#header div.section {
+  position: relative;
+  background: #fff;
+}
+.region-header {
+  float: right; /* LTR */
+  margin: 1em 5px 1.5em;
+  /*border: 1px solid #ccc;*/
+}
+#secondary-menu {
+  margin: 0 auto;
+  overflow: hidden;
+  width: 100%;
+}
+#main-wrapper {
+  min-height: 300px;
+}
+#content .section,
+.sidebar .section {
+  padding: 0 15px;
+}
+#breadcrumb {
+  margin: 0 15px;
+}
+#footer-wrapper {
+  padding: 35px 0 30px;
+}
+#footer-wrapper .section {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 15px;
+}
+.region-triptych-first,
+.region-triptych-middle,
+.region-triptych-last {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 20px 0;
+}
+.region-footer-firstcolumn,
+.region-footer-secondcolumn,
+.region-footer-thirdcolumn,
+.region-footer-fourthcolumn {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+@media all and (min-width: 560px) and (max-width: 850px) {
+
+  #sidebar-first,
+  .region-triptych-first,
+  .region-triptych-middle,
+  .region-triptych-last,
+  .region-footer-firstcolumn,
+  .region-footer-secondcolumn,
+  .region-footer-thirdcolumn,
+  .region-footer-fourthcolumn {
+    display: inline;
+    float: left; /* LTR */
+    position: relative;
+  }
+  #sidebar-first,
+  #sidebar-second {
+    width: 50%;
+  }
+  #sidebar-second {
+    margin-left: 50%; /* LTR */
+  }
+  .one-sidebar #sidebar-first,
+  .one-sidebar #sidebar-second {
+    width: 100%;
+  }
+  .one-sidebar #sidebar-second {
+    margin-left: 0; /* LTR */
+  }
+  .region-triptych-first,
+  .region-triptych-middle,
+  .region-triptych-last {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 10px 0;
+    width: 33%;
+  }
+  .region-footer-firstcolumn,
+  .region-footer-secondcolumn {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 10px;
+    width: 50%;
+  }
+  .region-footer-thirdcolumn,
+  .region-footer-fourthcolumn {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 10px;
+    width: 50%;
+  }
+  .region-footer-thirdcolumn {
+    clear: both;
+  }
+}
+
+@media all and (min-width: 851px) {
+
+  #header div.section,
+  #featured div.section,
+  #messages div.section,
+  #main,
+  #triptych,
+  #footer-columns,
+  #footer {
+    max-width: 1290px;
+  }
+  #content,
+  #sidebar-first,
+  #sidebar-second,
+  .region-triptych-first,
+  .region-triptych-middle,
+  .region-triptych-last,
+  .region-footer-firstcolumn,
+  .region-footer-secondcolumn,
+  .region-footer-thirdcolumn,
+  .region-footer-fourthcolumn {
+    display: inline;
+    float: left; /* LTR */
+    position: relative;
+  }
+  .two-sidebars #content {
+    margin-left: 25%;
+    margin-right: 25%;
+    width: 50%;
+  }
+  .one-sidebar #content {
+    width: 75%;
+  }
+  .no-sidebars #content {
+    width: 100%;
+  }
+  .sidebar-first #content {
+    margin-left: 25%; /* LTR */
+    margin-right: 0; /* LTR */
+  }
+  .sidebar-second #content {
+    margin-right: 25%; /* LTR */
+    margin-left: 0; /* LTR */
+  }
+  #sidebar-first {
+    width: 25%;
+    margin-left: -100%; /* LTR */
+  }
+  #sidebar-second {
+    width: 25%;
+    margin-left: -25%; /* LTR */
+    clear: none;
+  }
+  .region-triptych-first,
+  .region-triptych-middle,
+  .region-triptych-last {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 33%;
+  }
+  .region-footer-firstcolumn,
+  .region-footer-secondcolumn,
+  .region-footer-thirdcolumn,
+  .region-footer-fourthcolumn {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 10px;
+    width: 25%;
+  }
+}

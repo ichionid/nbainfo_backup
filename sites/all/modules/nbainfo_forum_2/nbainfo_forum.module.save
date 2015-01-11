@@ -1,0 +1,43 @@
+<?php
+function nbainfo_forum_comment_view_alter(&$build) {
+  global $user;
+  if (in_array('administrator', $user->roles) || in_array('editor', $user->roles)) {
+    $build['links']['comment']['#links']['comment-promote'] = array(
+      'title' => t('Promote to front'),
+      'href'  => 'comment/' . $build['comment_body']['#object']->cid  . '/promote_to_front',
+      'html'  => TRUE,
+    );
+    $build['links']['comment']['#links']['comment-promote']['attributes']['class'][] = 'promote-comment-to-frontpage';
+    $build['links']['comment']['#links']['comment-promote']['attributes']['comment_id'][] = $build['comment_body']['#object']->cid;
+ }
+}
+function nbainfo_forum_permission() {
+  return array(
+    'promote comment to frontpage' => array(
+      'title' => t('Promote comment to frontpage'),
+      'description' => t('Promote comment to frontpage.'),
+    ),
+  );
+}
+function nbainfo_forum_menu() {
+  $items['comment/%/promote_to_front'] = array(
+    'title' => 'Promote to front page',
+    'page callback' => 'nbainfo_forum_promote_to_frontpage',
+    'page arguments' => array(1),
+    'access arguments' => array('promote comment to frontpage'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+/**
+* AJAXIFY using http://www.computerminds.co.uk/drupal-code/make-link-use-ajax-drupal-7-its-easy
+*
+*/
+function nbainfo_forum_promote_to_frontpage($comment_id) {
+  $comment_object = comment_load($comment_id, TRUE);
+  $comment_object->is_anonymous = 0;
+  $comment_object->field_promote_to_frontpage['und'][0]['tid']='57'; //YES
+  comment_submit($comment_object);
+  comment_save($comment_object);
+}
+?>

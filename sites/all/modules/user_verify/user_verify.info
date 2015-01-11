@@ -1,0 +1,12 @@
+name = User verification
+description = Extended user verification options for registration spam protection
+core = 7.x
+package = "User administration"
+dependencies[] = variable
+
+; Information added by drupal.org packaging script on 2013-10-05
+version = "7.x-1.2"
+core = "7.x"
+project = "user_verify"
+datestamp = "1381015940"
+

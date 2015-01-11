@@ -1,0 +1,164 @@
+.node-type-blog #content .pane-views.pane-similarterms h2 {
+  font-size: 1.12em;
+}
+
+.page-user .view-id-nba_info_user_s_blogs {
+  width: 68%;
+}
+
+.node-type-forum #page-wrapper {
+  background-color: #ffffff;
+}
+
+.node-type-forum .forum-right-side {
+  background-color: #ffffff;
+}
+
+#custom-table tr {
+  max-width: 427px;
+}
+
+#custom-table tr td {
+  background-color: #ffffff;
+}
+
+#custom-table tr td p {
+  max-width: 500px;
+  background-color: #ffffff;
+}
+
+div.field-name-field-team .vocabulary-logo a {
+  display: none;
+}
+/*FB comment*/
+#facebook .fbDarkWidget a, .fbDarkWidget .profileName {
+ color: #000;
+}
+
+body {
+ min-width: 1024px;
+}
+#content .sf-menu.sf-style-space-orange a {
+  border: none;
+}
+.view-id-hall_of_fame_view,
+article.node-full {
+  padding-left: 1%;
+  padding-right: 1%;
+}
+.shoutbox-add-form #shoutbox-add-form .form-submit {
+  font-size: 100%;
+}
+
+#highlighted div.content ul li { 
+  display: inline-block;
+  width: 120px;
+}
+#highlighted .sf-menu.sf-style-space-orange a {
+  padding-left: 0;
+  padding-right: 0;
+}
+#highlighted .content {
+  padding-bottom: 5%;
+}
+#highlighted div.content ul {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+}
+
+a#logo {
+  /*height:178px;*/
+}
+
+#highlighted .sf-menu.sf-style-space-orange a:hover, 
+#highlighted .sf-menu.sf-style-space-orange a:active {
+  background-color: #966305;
+  color: #000;
+}
+#highlighted .sf-menu.sf-style-space-orange li {
+  background-color: #000000;
+}
+
+
+/* ---------- Color Module Styles ----------- */
+body div.panels-flexible-region-2-chat #chatblock-chatcontent {
+  height: 280px!important;
+}
+
+div.panels-flexible-region-2-chat h2,
+div.panels-flexible-region-2-twitter h2 {
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+#content div.panels-flexible-region-2-center h2.pane-title a:link,
+#content div.panels-flexible-region-2-center h2.pane-title a:visited,
+#content div.panels-flexible-region-2-center h2.pane-title a:hover,
+#content div.panels-flexible-region-2-center h2.pane-title a:active,
+div.pane-shoutbox-shoutbox h2.pane-title a:link,
+div.pane-shoutbox-shoutbox h2.pane-title a:visited,
+div.pane-shoutbox-shoutbox h2.pane-title a:hover,
+div.pane-shoutbox-shoutbox h2.pane-title a:active {
+  color: white;
+}
+.node-dagens-video {
+  background-color: grey;
+}
+.node-dagens-video p {
+  color: white;
+  padding-left: 10px;
+  padding-top: 24px
+}
+
+body,
+body.overlay {
+  color: #3b3b3b;
+}
+.comment .comment-arrow {
+  border-color: #ffffff;
+}
+#content,
+#main-menu-links li a.active,
+#main-menu-links li.active-trail a {
+  background: #ffffff;
+}
+.tabs ul.primary li a.active {
+  background-color: #ffffff;
+}
+.tabs ul.primary li.active a {
+  background-color: #ffffff;
+  border-bottom: 1px solid #ffffff;
+}
+/*#header {
+  background-color: #48a9e4;
+  background-image: -moz-linear-gradient(top, #0779bf 0%, #48a9e4 100%);
+  background-image: -ms-linear-gradient(top, #0779bf 0%, #48a9e4 100%);
+  background-image: -o-linear-gradient(top, #0779bf 0%, #48a9e4 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #0779bf), color-stop(1, #48a9e4));
+  background-image: -webkit-linear-gradient(top, #0779bf 0%, #48a9e4 100%);
+  background-image: linear-gradient(top, #0779bf 0%, #48a9e4 100%);
+}*/
+a {
+  color: #0071B3;
+}
+a:hover,
+a:focus {
+  color: #018fe2;
+}
+a:active {
+  color: #23aeff;
+}
+.sidebar .block {
+  background-color: #f6f6f2;
+  border-color: #f9f9f9;
+}
+.region-header,
+.region-header a,
+.region-header li a.active,
+#name-and-slogan,
+#name-and-slogan a,
+#secondary-menu-links li a {
+  color: #000;
+}

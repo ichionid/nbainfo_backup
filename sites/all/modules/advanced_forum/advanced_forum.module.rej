@@ -1,0 +1,19 @@
+--- modules/advanced_forum/advanced_forum.module Base (1.149.2.85.2.3)
++++ modules/advanced_forum/advanced_forum.module Locally Modified (Based On 1.149.2.85.2.3)
+@@ -1122,7 +1122,15 @@
+ function advanced_forum_type_is_in_forum($node, $tid=0) {
+   $vid = (empty($vid)) ? variable_get('forum_nav_vocabulary', 0) : $vid;
+   if (isset($node->taxonomy_forums)) {
+-    foreach ($node->taxonomy_forums[$node->language] as $tforum) {
++    // Check for language used
++    if (!isset($node->taxonomy_forums[$node->language])) {
++      $langcode = LANGUAGE_NONE;
++    }
++    else {
++      $langcode = $node->language;
++    }
++
++    foreach ($node->taxonomy_forums[$langcode] as $tforum) {
+ 			if (!isset($tforum['taxonomy_term'])) {
+ 				continue;
+ 			}
